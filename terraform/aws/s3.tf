@@ -9,16 +9,41 @@ resource "aws_s3_bucket" "data" {
     Name        = "${local.resource_prefix.value}-data"
     Environment = local.resource_prefix.value
     }, {
-    git_commit           = "4d57f83ca4d3a78a44fb36d1dcf0d23983fa44f5"
+    git_commit           = "3f5b66d407a8fab9148c7ae9edc5a600d42f00b4"
     git_file             = "terraform/aws/s3.tf"
-    git_last_modified_at = "2022-05-18 07:08:06"
-    git_last_modified_by = "nimrod@bridgecrew.io"
-    git_modifiers        = "34870196+LironElbaz/nimrod/nimrodkor"
-    git_org              = "bridgecrewio"
+    git_last_modified_at = "2021-12-13 06:34:51"
+    git_last_modified_by = "34870196+LironElbaz@users.noreply.github.com"
+    git_modifiers        = "34870196+LironElbaz/nimrodkor"
+    git_org              = "esbriand"
     git_repo             = "terragoat"
     yor_trace            = "0874007d-903a-4b4c-945f-c9c233e13243"
   })
 }
+
+
+resource "aws_s3_bucket" "data_log_bucket" {
+  bucket = "data-log-bucket"
+  tags = {
+    git_commit           = "1d46ee3fca5eafb810db759258f4e737f94b4daa"
+    git_file             = "terraform/aws/s3.tf"
+    git_last_modified_at = "2022-11-23 16:57:26"
+    git_last_modified_by = "sbriand@paloaltonetworks.com"
+    git_modifiers        = "sbriand"
+    git_org              = "esbriand"
+    git_repo             = "terragoat"
+    yor_trace            = "6a9b1a04-6ca7-48f8-9e37-d9e7b6d75eb9"
+  }
+}
+
+resource "aws_s3_bucket_logging" "data" {
+  bucket = aws_s3_bucket.data.id
+
+  target_bucket = aws_s3_bucket.data_log_bucket.id
+  target_prefix = "log/"
+}
+
+
+
 
 resource "aws_s3_bucket_object" "data_object" {
   bucket = aws_s3_bucket.data.id
